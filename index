@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cookie Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #fce4ec; 
+      margin: 0;
+    }
+    .container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 300px;
+    }
+    .message {
+      margin: 20px 0;
+    }
+    input[type="text"] {
+      padding: 8px;
+      width: 80%;
+      margin: 10px 0;
+      border: 1px solid #f48fb1; 
+      border-radius: 4px;
+    }
+    button {
+      padding: 10px 15px;
+      background-color: #f06292; 
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 4px;
+    }
+    button:hover {
+      background-color: #ec407a; 
+    }
+    #cookieDisplay p {
+      font-size: 18px;
+      font-weight: bold;
+      color: #f06292; 
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2 style="color: #f06292;">Cookie Demo</h2>
+    <div class="message" id="message"></div>
+    <div id="cookieForm">
+      <label for="username" style="color: #f06292;">Enter your name:</label>
+      <input type="text" id="username" placeholder="Your name">
+      <button onclick="setCookie()">Set Cookie</button>
+    </div>
+    <div id="cookieDisplay" style="display: none;">
+      <p>Welcome back, <span id="userNameDisplay"></span>!</p>
+    </div>
+  </div>
+
+  <script>
+    function setCookie() {
+      const username = document.getElementById("username").value;
+      if (username) {
+        const d = new Date();
+        d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000)); // cookie expires in 365 days
+        let expires = "expires=" + d.toUTCString();
+        document.cookie = "username=" + username + ";" + expires + ";path=/";
+        displayWelcomeMessage(username);
+      }
+    }
+
+    function getCookie(cname) {
+      let name = cname + "=";
+      let ca = document.cookie.split(';');
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+
+    function displayWelcomeMessage(username) {
+      document.getElementById("cookieForm").style.display = "none";
+      document.getElementById("cookieDisplay").style.display = "block";
+      document.getElementById("userNameDisplay").innerText = username;
+    }
+
+    function checkCookie() {
+      const user = getCookie("username");
+      if (user) {
+        displayWelcomeMessage(user);
+      } else {
+        document.getElementById("message").innerText = "Please enter your name.";
+      }
+    }
+
+    window.onload = function() {
+      checkCookie();
+    };
+  </script>
+
+<footer style="text-align: center; padding: 20px; background-color: #f06292; color: white; position: fixed; bottom: 0; width: 100%;">
+  <p>&copy; November 21, 2024 Nashla Arvelo Tejada. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
